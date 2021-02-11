@@ -71,7 +71,7 @@ Only available if `wait-for-completion` is `true`
 ## Example usage
 ```yaml
 - name: Invoke workflow without inputs. Wait for result
-  uses: jonas-schievink/workflow-proxy@v2
+  uses: jonas-schievink/workflow-proxy@v1
   with:
     workflow: My Workflow
     token: ${{ secrets.PERSONAL_TOKEN }}
@@ -79,7 +79,7 @@ Only available if `wait-for-completion` is `true`
 
 ```yaml
 - name: Invoke workflow without inputs. Don't wait for result
-  uses: jonas-schievink/workflow-proxy@v2
+  uses: jonas-schievink/workflow-proxy@v1
   with:
     workflow: My Workflow
     token: ${{ secrets.PERSONAL_TOKEN }}
@@ -88,7 +88,7 @@ Only available if `wait-for-completion` is `true`
 
 ```yaml
 - name: Invoke workflow with inputs
-  uses: jonas-schievink/workflow-proxy@v2
+  uses: jonas-schievink/workflow-proxy@v1
   with:
     workflow: Another Workflow
     token: ${{ secrets.PERSONAL_TOKEN }}
@@ -97,7 +97,7 @@ Only available if `wait-for-completion` is `true`
 
 ```yaml
 - name: Invoke workflow in another repo with inputs
-  uses: jonas-schievink/workflow-proxy@v2
+  uses: jonas-schievink/workflow-proxy@v1
   with:
     workflow: Some Workflow
     repo: benc-uk/example
@@ -108,7 +108,7 @@ Only available if `wait-for-completion` is `true`
 ```yaml
 - name: Invoke workflow and handle result
   id: trigger-step
-  uses: jonas-schievink/workflow-proxy@v2
+  uses: jonas-schievink/workflow-proxy@v1
   with:
     workflow: Another Workflow
     token: ${{ secrets.PERSONAL_TOKEN }}
