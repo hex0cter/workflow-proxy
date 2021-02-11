@@ -1,7 +1,7 @@
 {
-  "name": "workflow-dispatch-and-wait",
-  "version": "2.1.1",
-  "description": "Trigger running GitHub Actions workflows and wait for result",
+  "name": "workflow-proxy",
+  "version": "1.0.0",
+  "description": "Proxy GitHub Actions workflows running in another repository",
   "main": "dist/index.js",
   "scripts": {
     "build": "ncc build src/main.ts -o dist",
@@ -13,7 +13,6 @@
     "worflow",
     "trigger"
   ],
-  "author": "Aurélien Baudet",
   "license": "MIT",
   "devDependencies": {
     "@actions/core": "1.2.6",

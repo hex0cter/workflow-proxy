@@ -1,5 +1,5 @@
-name: 'Workflow Dispatch and wait'
-description: 'Trigger and chain GitHub Actions workflows with workflow_dispatch events and wait for result'
+name: 'Workflow Proxy'
+description: 'Proxy GitHub Actions workflows to another repository'
 
 inputs:
   workflow: 

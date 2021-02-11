@@ -11,7 +11,9 @@ For details of the `workflow_dispatch` even see [this blog post introducing this
 
 *Note 2.* If you want to reference the target workflow by ID, you will need to list them with the following REST API call `curl https://api.github.com/repos/{{owner}}/{{repo}}/actions/workflows -H "Authorization: token {{pat-token}}"`
 
-_This action is a fork of `benc-uk/workflow-dispatch` to add support for waiting for workflow completion._
+_This action is a fork of `aurelien-baudet/workflow-dispatch` to add support for reposting job logs._
+
+_`aurelien-baudet/workflow-dispatch` is a fork of `benc-uk/workflow-dispatch` to add support for waiting for workflow completion._
 
 ## Inputs
 ### `workflow`
@@ -54,6 +56,9 @@ All values must be strings (even if they are used as booleans or numbers in the 
 **Optional.** The time to wait between two polls for getting workflow run URL. The time must be suffixed by the time unit e.g. `10m`. Time unit can be `s` for seconds, `m` for minutes and `h` for hours. It has no effect if `display-worflow-run-url` is `false`. Default is `1m`.
 **/!\ Do not use a value that is too small to avoid `API Rate limit exceeded`**
 
+### `repost-logs`
+**Optional.** If `true`, logs produced by the invoked workflow will be downloaded and output in the invoking workflow. This allows full proxying of workflows from a private repository.
+
 ## Outputs
 ### `workflow-url`
 The URL of the workflow run that has been triggered. It may be undefined if the URL couldn't be retrieved (timeout reached) or if `wait-for-completion` and `display-worflow-run-url` are both `false`
@@ -66,7 +71,7 @@ Only available if `wait-for-completion` is `true`
 ## Example usage
 ```yaml
 - name: Invoke workflow without inputs. Wait for result
-  uses: aurelien-baudet/workflow-dispatch@v2
+  uses: jonas-schievink/workflow-proxy@v2
   with:
     workflow: My Workflow
     token: ${{ secrets.PERSONAL_TOKEN }}
@@ -74,7 +79,7 @@ Only available if `wait-for-completion` is `true`
 
 ```yaml
 - name: Invoke workflow without inputs. Don't wait for result
-  uses: aurelien-baudet/workflow-dispatch@v2
+  uses: jonas-schievink/workflow-proxy@v2
   with:
     workflow: My Workflow
     token: ${{ secrets.PERSONAL_TOKEN }}
@@ -83,7 +88,7 @@ Only available if `wait-for-completion` is `true`
 
 ```yaml
 - name: Invoke workflow with inputs
-  uses: aurelien-baudet/workflow-dispatch@v2
+  uses: jonas-schievink/workflow-proxy@v2
   with:
     workflow: Another Workflow
     token: ${{ secrets.PERSONAL_TOKEN }}
@@ -92,7 +97,7 @@ Only available if `wait-for-completion` is `true`
 
 ```yaml
 - name: Invoke workflow in another repo with inputs
-  uses: aurelien-baudet/workflow-dispatch@v2
+  uses: jonas-schievink/workflow-proxy@v2
   with:
     workflow: Some Workflow
     repo: benc-uk/example
@@ -103,7 +108,7 @@ Only available if `wait-for-completion` is `true`
 ```yaml
 - name: Invoke workflow and handle result
   id: trigger-step
-  uses: aurelien-baudet/workflow-dispatch@v2
+  uses: jonas-schievink/workflow-proxy@v2
   with:
     workflow: Another Workflow
     token: ${{ secrets.PERSONAL_TOKEN }}

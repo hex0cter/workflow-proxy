@@ -6207,7 +6207,8 @@ class WorkflowHandler {
                     buf += jobLog.data;
                 }
                 catch (error) {
-                    throw new Error(`Failed to fetch job logs for job '${job.name}' (id ${job.id}): ${error}`);
+                    debug_1.debug('Job log download error', error);
+                    throw error;
                 }
             }
             return buf;
