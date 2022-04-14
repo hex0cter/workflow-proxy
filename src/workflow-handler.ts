@@ -36,8 +36,8 @@ const ofConclusion = (conclusion: string | null): WorkflowRunConclusion => {
 }
 
 export interface WorkflowRunResult {
-  url: string, 
-  status: WorkflowRunStatus, 
+  url: string,
+  status: WorkflowRunStatus,
   conclusion: WorkflowRunConclusion
 }
 
@@ -161,7 +161,7 @@ export class WorkflowHandler {
         owner: this.owner,
         repo: this.repo,
         workflow_id: workflowId,
-        event: 'workflow_dispatch'
+        // event: 'workflow_dispatch'
       });
       debug('List Workflow Runs', response);
 
@@ -175,7 +175,7 @@ export class WorkflowHandler {
         created_at_ts: new Date(r.created_at).valueOf(),
         triggerDateTs: this.triggerDate
       })));
-  
+
       if (runs.length == 0) {
         throw new Error('Run not found');
       }
@@ -200,7 +200,7 @@ export class WorkflowHandler {
     }
     try {
       const workflowsResp = await this.octokit.actions.listRepoWorkflows({
-        owner: this.owner, 
+        owner: this.owner,
         repo: this.repo
       });
       const workflows = workflowsResp.data.workflows;
