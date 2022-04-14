@@ -65,10 +65,11 @@ function checkForTimeout(start: number, waitForCompletionTimeout: number) {
 //
 // Main task function (async wrapper)
 //
+let workflowHandler: WorkflowHandler;
 async function run(): Promise<void> {
   try {
     const args = getArgs();
-    const workflowHandler = new WorkflowHandler(args.token, args.workflowRef, args.owner, args.repo, args.ref);
+    workflowHandler = new WorkflowHandler(args.token, args.workflowRef, args.owner, args.repo, args.ref);
 
     // Trigger workflow run
     await workflowHandler.triggerWorkflow(args.inputs);
@@ -106,3 +107,11 @@ async function run(): Promise<void> {
 // Call the main task run function
 //
 run()
+
+process.once('SIGINT', async function (code) {
+  core.info('SIGINT received...');
+  if(workflowHandler){
+    await workflowHandler.cancelWorkflow()
+  }
+  process.exit(2);
+});

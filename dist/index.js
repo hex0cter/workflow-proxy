@@ -5908,11 +5908,12 @@ function checkForTimeout(start, waitForCompletionTimeout) {
 //
 // Main task function (async wrapper)
 //
+let workflowHandler;
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const args = utils_1.getArgs();
-            const workflowHandler = new workflow_handler_1.WorkflowHandler(args.token, args.workflowRef, args.owner, args.repo, args.ref);
+            workflowHandler = new workflow_handler_1.WorkflowHandler(args.token, args.workflowRef, args.owner, args.repo, args.ref);
             // Trigger workflow run
             yield workflowHandler.triggerWorkflow(args.inputs);
             core.info(`Workflow triggered 🚀`);
@@ -5944,6 +5945,15 @@ function run() {
 // Call the main task run function
 //
 run();
+process.once('SIGINT', function (code) {
+    return __awaiter(this, void 0, void 0, function* () {
+        core.info('SIGINT received...');
+        if (workflowHandler) {
+            yield workflowHandler.cancelWorkflow();
+        }
+        process.exit(2);
+    });
+});
 
 
 /***/ }),
@@ -6183,6 +6193,17 @@ class WorkflowHandler {
                 debug_1.debug('Workflow Run status error', error);
                 throw error;
             }
+        });
+    }
+    cancelWorkflow() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const runId = yield this.getWorkflowRunId();
+            const response = yield this.octokit.rest.actions.cancelWorkflowRun({
+                owner: this.owner,
+                repo: this.repo,
+                run_id: runId,
+            });
+            debug_1.debug(`Canceling workflow run`, response);
         });
     }
     getWorkflowLogs() {

@@ -96,6 +96,16 @@ export class WorkflowHandler {
     }
   }
 
+  async cancelWorkflow(): Promise<void> {
+    const runId = await this.getWorkflowRunId();
+    const response = await this.octokit.rest.actions.cancelWorkflowRun({
+      owner: this.owner,
+      repo: this.repo,
+      run_id: runId,
+    });
+    debug(`Canceling workflow run`, response);
+  }
+
   async getWorkflowLogs(): Promise<string> {
     const runId = await this.getWorkflowRunId();
     const response = await this.octokit.actions.listJobsForWorkflowRun({
